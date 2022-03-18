@@ -1,0 +1,44 @@
+.dashboard{
+    width: 100%;
+    height: 100%;
+}
+
+.header{
+    padding: 1rem;
+    width: 100%;
+    background-color: #2375ab;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.logout_button{
+    width: 100px;
+}
+
+.content{
+    margin-top: 5rem;
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.box{
+    width: 400px;
+    padding-bottom: 0.6rem;
+    background-color: #2375ab;
+    margin: 0.3rem;
+    color: #fff;
+
+}
+
+.ant-row{
+    justify-content: center;
+}
+
+.ant-spin-container{
+    display: flex;
+    flex-direction: column;
+    
+}
