@@ -1,7 +1,7 @@
 import Input from "antd/lib/input/Input"
 import Form from "antd/lib/form/Form"
 import { Button } from "antd"
-import { useEffect, useRef } from "react"
+import { useRef } from "react"
 import { Typography } from "antd"
 import '../../../styles/Login.css'
 
@@ -15,16 +15,17 @@ function Login(props){
 
     const loginHandler = (username, password)=>{
         
-       const result = props.users.map((user)=>{
+       props.users.map((user)=>{
             if(username === user.user && password === user.password){
                 props.setIsLoggedIn(true)
                 props.setCurrentUser(user)
                 return localStorage.setItem('currentUser',JSON.stringify(user))
             } else {
                 props.setWarning(true)
-                setTimeout(()=>{
+                return setTimeout(()=>{
                     props.setWarning(false)
                 }, 2000)
+                
             }  
         })
       

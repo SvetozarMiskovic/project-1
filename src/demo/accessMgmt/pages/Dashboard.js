@@ -2,46 +2,114 @@ import Header from '../dashboard comps/Header'
 import { Typography } from 'antd'
 import '../../../styles/Dashboard.css'
 import DBContent from '../dashboard comps/DBContent'
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 const {Title} = Typography;
 function Dashboard(props){
-    const [availableUsers, setAvailableUsers] = useState([])
+   
+    useEffect(()=>{
+        const ls = JSON.parse(localStorage.getItem('currentUser'))              
+      checkForUsers(ls?.type)   
+    },[props.currentUser])
 
     useEffect(()=>{
-        
-            setTimeout(()=>{
-                const ls = JSON.parse(localStorage.getItem('currentUser'))
-                
-                checkForUsers(ls.type)
-            },1500)
-        
-    }, [])
+    const ls = JSON.parse(localStorage.getItem('currentUser'))              
+      checkForUsers(ls?.type)   
+      localStorage.setItem('users', JSON.stringify(props.users))
+      
+  
+     },[props.users])
     
+
+    const getUsers = (result)=>{
+        props.setShowUsers((prevState)=>[...result])
+    }
+
+    const createAdmin = ()=>{
+        const id = new Date().getTime()
+        
+        const userID = id.toString().substring(10,13)
+        const newAdmin = [{
+            id: id,
+            type: 'admin',
+            user: `admin.user${userID}`,
+            password: 'adminpass'
+        }]
+        props.setUsers(prevState => [...prevState, ...newAdmin])
+        
+    }
+   
+    const createOwner = ()=>{
+        const id = new Date().getTime()
+        
+        const userID = id.toString().substring(11,13)
+        const newOwner = [{
+            id: id,
+            type: 'owner',
+            user: `owner.user${userID}`,
+            password: 'ownerpass'
+        }]
+        props.setUsers(prevState => [...prevState, ...newOwner])
+    }
+
+    const createMember = ()=>{
+        const id = new Date().getTime()
+        
+        const userID = id.toString().substring(10,13)
+        const newMember = [{
+            id: id,
+            type: 'member',
+            user: `member.user${userID}`,
+            password: 'memberpass'
+        }]
+        props.setUsers(prevState => [...prevState, ...newMember])
+    }
+
+    const createGuest = ()=>{
+        const id = new Date().getTime()
+        
+        const userID = id.toString().substring(11,13)
+        const newGuest = [{
+            id: id,
+            type: 'guest',
+            user: `guest.user${userID}`,
+            password: 'guestpass'
+        }]
+        props.setUsers(prevState => [...prevState, ...newGuest])
+    }
+
     const checkForUsers = (info)=>{
         if(info === 'superuser'){
-            setAvailableUsers(props.users)
+            getUsers(props.users)
+           
             
         } else if(info === 'admin'){
             const result = props.users.filter((user)=> user?.type !== 'superuser')
-            setAvailableUsers(result)
+           getUsers(result)
+           
         } else if(info === 'owner'){
             const result = props.users.filter((user)=> user?.type !== 'superuser' && user?.type !== 'admin')
-            setAvailableUsers(result)
+           getUsers(result)
+           
         } else if (info === 'member'){
             const result = props.users.filter((user)=> user?.type !== 'superuser' && user?.type !== 'admin' && user?.type !== 'owner');
-            setAvailableUsers(result)
+           getUsers(result)
+           
         } else if(info === 'guest'){
             const result = props.users.filter((user)=> user?.type !== 'superuser' && user?.type !== 'admin' && user?.type !== 'owner' && user?.type !== 'member');
-            setAvailableUsers(result)
+           getUsers(result)
+           
         }
+
+        return localStorage.setItem('showUsers', JSON.stringify(props.showUsers))
+           
     }
 
     return(
         <div className="dashboard">
-            <Header isLoggedIn={props.isLoggedIn} currentUser={props.currentUser} setIsLoggedIn={props.setIsLoggedIn} setCurrentUser={props.setCurrentUser}/>
+            <Header setShowUsers={props.setShowUsers} createGuest={createGuest} createMember={createMember} createOwner={createOwner} createAdmin={createAdmin} isLoggedIn={props.isLoggedIn} currentUser={props.currentUser} setIsLoggedIn={props.setIsLoggedIn} setCurrentUser={props.setCurrentUser}/>
             <Title style={{color: '#2375ab', alignSelf:'center', position:'absolute', margin: 0, left: '50%', top: '6rem', transform: 'translateX(-50%)'}} level={3}>Dashboard</Title>
-            <DBContent setAvailableUsers={setAvailableUsers} availableUsers={availableUsers} currentUser={props.currentUser} users={props.users}/>
+            <DBContent showUsers={props.showUsers}  currentUser={props.currentUser} users={props.users}/>
         </div>
     )
 }

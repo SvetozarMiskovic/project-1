@@ -6,6 +6,7 @@ function Logout(props){
             props.setCurrentUser()
             localStorage.clear()
             props.setIsLoggedIn(false)
+            
         }} type="danger">Log out</Button>
     )
 }
