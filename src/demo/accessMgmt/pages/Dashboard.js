@@ -28,11 +28,12 @@ function Dashboard(props){
     const createAdmin = ()=>{
         const id = new Date().getTime()
         
-        const userID = id.toString().substring(10,13)
+        const userID = id.toString()
+        const userStr= userID.substring(8,11)
         const newAdmin = [{
             id: id,
             type: 'admin',
-            user: `admin.user${userID}`,
+            user: `admin.user${userStr}`,
             password: 'adminpass'
         }]
         props.setUsers(prevState => [...prevState, ...newAdmin])
