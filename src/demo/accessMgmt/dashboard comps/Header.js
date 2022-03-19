@@ -94,7 +94,7 @@ function Header(props){
 
     return(
         <div className="header">
-            <Dropdown overlay={makeMenu}>
+            <Dropdown trigger={'click'} overlay={makeMenu}>
             
                 <Button style={{color:'#D56062', fontSize:'1rem',textAlign:'center' }}>
                   Create a user  <DownOutlined style={{fontSize:'0.7rem'}}/>

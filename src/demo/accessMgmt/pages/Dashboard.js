@@ -109,7 +109,7 @@ function Dashboard(props){
     return(
         <div className="dashboard">
             <Header setShowUsers={props.setShowUsers} createGuest={createGuest} createMember={createMember} createOwner={createOwner} createAdmin={createAdmin} isLoggedIn={props.isLoggedIn} currentUser={props.currentUser} setIsLoggedIn={props.setIsLoggedIn} setCurrentUser={props.setCurrentUser}/>
-            <Title style={{color: '#2375ab', alignSelf:'center', position:'absolute', margin: 0, left: '50%', top: '6rem', transform: 'translateX(-50%)'}} level={3}>Dashboard</Title>
+            <Title className='content_title' style={{color:'#2375ab'}} level={3}>Dashboard</Title>
             <DBContent showUsers={props.showUsers}  currentUser={props.currentUser} users={props.users}/>
         </div>
     )

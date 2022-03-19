@@ -17,7 +17,7 @@
 }
 
 .content{
-    margin-top: 5rem;
+    margin-top: 2rem;
     display: flex;
     width: 100%;
     flex-direction: row;
@@ -25,7 +25,7 @@
 }
 
 .box{
-    width: 400px;
+    width: 200px;
     padding-bottom: 0.6rem;
     background-color: #2375ab;
     margin: 0.3rem;
@@ -35,10 +35,30 @@
 
 .ant-row{
     justify-content: center;
+    
 }
 
 .ant-spin-container{
     display: flex;
     flex-direction: column;
+    
+}
+
+.content_title{
+    display: flex;
+    justify-content: center;
+    
+    margin-top: 2rem;
+    
+}
+
+@media (max-width: 768px) {
+    .header{
+        flex-direction: column;
+        gap: 1.2rem;
+    }
+    .box{
+        width: 100%;
+    }
     
 }
