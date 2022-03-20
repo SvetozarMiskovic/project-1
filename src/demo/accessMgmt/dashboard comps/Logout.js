@@ -4,7 +4,7 @@ function Logout(props){
     return(
         <Button className="logout_button" onClick={()=>{
             props.setCurrentUser()
-            localStorage.clear()
+            localStorage.removeItem('currentUser')
             props.setIsLoggedIn(false)
             
         }} type="danger">Log out</Button>
