@@ -3,7 +3,9 @@ import Form from "antd/lib/form/Form"
 import { Button } from "antd"
 import { useRef } from "react"
 import { Typography } from "antd"
+import { signInWithEmailAndPassword } from "firebase/auth"
 import '../../../styles/Login.css'
+import { auth } from "../../../Firebase"
 
 const {Title, Text} = Typography;
 
@@ -13,22 +15,25 @@ function Login(props){
     const passwordRef = useRef()
 
 
-    const loginHandler = (username, password)=>{
-        
-       props.users.map((user)=>{
-            if(username === user.user && password === user.password){
-                props.setIsLoggedIn(true)
-                props.setCurrentUser(user)
-                return localStorage.setItem('currentUser',JSON.stringify(user))
-            } else {
-                props.setWarning(true)
-                return setTimeout(()=>{
-                    props.setWarning(false)
-                }, 2000)
-                
-            }  
-        })
-      
+    const loginHandler = async (username, password)=>{
+        try{
+            await signInWithEmailAndPassword(auth, username, password);
+            props.users.map((user)=>{
+                if(username === user.user && password === user.password){
+                    props.setIsLoggedIn(true)
+                    props.setCurrentUser(user)
+                    return localStorage.setItem('currentUser',JSON.stringify(user))
+                }
+            })
+          
+        }
+       catch{
+           
+           props.setWarning(true)
+            setTimeout(()=>{
+                props.setWarning(false)
+            }, 2000)
+       }
       
     }
 

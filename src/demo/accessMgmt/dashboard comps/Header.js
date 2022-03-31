@@ -1,108 +1,145 @@
 import Logout from './Logout.js'
-import { Button, Typography } from 'antd'
-import { Menu, Dropdown } from 'antd';
-import { DownOutlined, PlusCircleOutlined } from '@ant-design/icons';
+import { Button, Typography, Select, Alert } from 'antd'
+import { useRef, useState } from 'react';
+import Modal from 'antd/lib/modal/Modal';
+import Form from 'antd/lib/form/Form';
+import Input from "antd/lib/input/Input"
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../../../Firebase.js';
 
 
 const {Title} = Typography
+const {Option} = Select
 
 function Header(props){
+    const [createMode, setCreateMode] = useState(false)
+    const [selectedType, setSelectedType] = useState()
+    const [missingInfo, setMissingInfo] = useState(false)
+    const userRef = useRef()
+    const passRef = useRef()
 
-
-
-    const makeMenu = ()=>{
-        if(props.currentUser.type === 'superuser'){
-            return (
-                <Menu>
-                    <Menu.Item onClick={()=>{
-                        props.createAdmin()
-                    }} key={'admin'}>
-                        Create admin <PlusCircleOutlined />
-                    </Menu.Item>
-                    <Menu.Item onClick={()=>{
-                        props.createOwner()
-                    }} key={'owner'}>
-                        Create owner <PlusCircleOutlined />
-                    </Menu.Item>
-                    <Menu.Item onClick={()=>{
-                        props.createMember()
-                    }} key={'member'}>
-                        Create member <PlusCircleOutlined />
-                    </Menu.Item>
-                    <Menu.Item onClick={()=>{
-                        props.createGuest()
-                    }} key={'guest'}>
-                        Create guest <PlusCircleOutlined />
-                    </Menu.Item>
-                </Menu>
-            )
-        } else if(props.currentUser.type === 'admin'){
-            return (
-                <Menu>
-                    <Menu.Item onClick={()=>{
-                        props.createOwner()
-                    }} key={'owner'}>
-                        Create owner <PlusCircleOutlined />
-                    </Menu.Item>
-                    <Menu.Item onClick={()=>{
-                        props.createMember()
-                    }} key={'member'}>
-                        Create member <PlusCircleOutlined />
-                    </Menu.Item>
-                    <Menu.Item onClick={()=>{
-                        props.createGuest()
-                    }} key={'guest'}>
-                        Create guest <PlusCircleOutlined />
-                    </Menu.Item>
-                </Menu>
-            )
-        } else if (props.currentUser.type === 'owner'){
-            return (
-                <Menu>
-                    <Menu.Item onClick={()=>{
-                        props.createMember()
-                    }} key={'member'}>
-                        Create member <PlusCircleOutlined />
-                    </Menu.Item>
-                    <Menu.Item onClick={()=>{
-                        props.createGuest()
-                    }} key={'guest'}>
-                        Create guest <PlusCircleOutlined />
-                    </Menu.Item>
-                </Menu>
-            )
-        } else if(props.currentUser.type === 'member'){
-            return (
-                <Menu>
-                    <Menu.Item onClick={()=>{
-                        props.createGuest()
-                    }} key={'guest'}>
-                        Create guest <PlusCircleOutlined />
-                    </Menu.Item>
-                </Menu>
-            )
-        } else if(props.currentUser.type === 'guest'){
-            return(
-                <Menu>
-                    <Menu.Item key={'guest'}>
-                        <h3 style={{color: '#2375ab'}}>No options</h3>
-                    </Menu.Item>
-                </Menu>
-            )
-        }
+    const onCancel = ()=>{
+        setCreateMode(false)
     }
+
+    const onConfirm = async ()=>{
+        const id = new Date().getTime()
+
+       const newUser = [{
+            id,
+            user: userRef.current.input.value,
+            password: passRef.current.input.value,
+            type: selectedType
+        }]
+        if(userRef.current.input.value && passRef.current.input.value) {props.setUsers(prevState => [...prevState, ...newUser])
+        } else {
+            setMissingInfo(true)
+            setTimeout(()=>{
+                setMissingInfo(false)
+            }, 2000)
+        }
+        
+        await createUserWithEmailAndPassword(auth, userRef.current.input.value, passRef.current.input.value)
+        setCreateMode(false)
+  
+        props.setCreated(true)
+        setTimeout(()=>{
+            props.setCreated(false)
+        }, 2000)
+    }
+
+    const onChange = (value)=>{
+        setSelectedType(value)
+    }
+
+    const makeOptions = ()=>{
+        if(props.currentUser?.type === 'superuser'){
+                    return (
+                        <Select onChange={onChange} style={{width:'100%'}}>
+                            <Option key={'admin'}>
+                                admin
+                            </Option>
+                            <Option  key={'owner'}>
+                                owner
+                            </Option>
+                            <Option  key={'member'}>
+                                member
+                            </Option>
+                            <Option key={'guest'}>
+                                guest
+                            </Option>
+                        </Select>
+                    )
+                } else if(props.currentUser?.type === 'admin'){
+                    return (
+                        <Select onChange={onChange} style={{width:'100%'}}>
+                            <Option key={'owner'}>
+                                owner
+                            </Option>
+                            <Option key={'member'}>
+                                member
+                            </Option>
+                            <Option key={'guest'}>
+                                guest
+                            </Option>
+                        </Select>
+                    )
+                } else if (props.currentUser?.type === 'owner'){
+                    return (
+                        <Select onChange={onChange} style={{width:'100%'}}>
+                            <Option key={'member'}>
+                                member
+                            </Option>
+                            <Option key={'guest'}>
+                                guest
+                            </Option>
+                        </Select>
+                    )
+                } else if(props.currentUser?.type === 'member'){
+                    return (
+                        <Select onChange={onChange} style={{width:'100%'}}>
+                            <Option key={'guest'}>
+                                guest
+                            </Option>
+                        </Select>
+                    )
+                } else if(props.currentUser?.type === 'guest'){
+                    return(
+                        <Select onChange={onChange} style={{width:'100%'}}>
+                            <Option key={'guest'}>
+                                <h3 style={{color: '#2375ab'}}>No options</h3>
+                            </Option>
+                        </Select>
+                    )
+                }
+            }
+    
 
     return(
         <div className="header">
-            <Dropdown trigger={'click'} overlay={makeMenu}>
-            
-                <Button style={{color:'#D56062', fontSize:'1rem',textAlign:'center' }}>
-                  Create a user  <DownOutlined style={{fontSize:'0.7rem'}}/>
-                </Button>
-                
-            </Dropdown>
+          
+           
+            <Button style={{color:'#D56062', fontSize:'1rem',textAlign:'center' }} onClick={()=> setCreateMode(true)}>
+                Create a user 
+            </Button>
+            <Modal title='Create user' visible={createMode} onCancel={onCancel} onOk={()=>{
+                onConfirm()
+            }} okText='Finish' okButtonProps={props.currentUser?.type === 'guest' ? {style: {display:'none'}} : {style: {display:'inline'}}}>
+                {missingInfo ? <Alert style={{marginBottom: '1rem'}} type='error' message='Please fill in the required information!'></Alert> : null}
+                {props.currentUser?.type !== 'guest' ? <Form>
+                    <Title level={5}>Enter username</Title>
+                    <Input type='text' ref={userRef} placeholder='i.e. name@name.com' required></Input>
+                    <Title level={5}>Enter password</Title>
+                    <Input type='text' ref={passRef} placeholder='password' required></Input>
+                    <Title level={5}>Choose user type</Title>
+                    
+                    {makeOptions()}
+                </Form> : 'You cannot create users as a guest!'}
+            </Modal> 
+           
             <Title style={{color:'#fff', margin: 0}} level={3}>Logged in as: {props.currentUser?.type}, ID: {props.currentUser?.id}</Title>
             <Logout setShowUsers={props.setShowUsers} setCurrentUser={props.setCurrentUser} isLoggedIn={props.isLoggedIn} setIsLoggedIn={props.setIsLoggedIn}/>
+            
         </div>
     )
 }

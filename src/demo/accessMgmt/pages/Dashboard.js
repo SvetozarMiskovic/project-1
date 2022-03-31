@@ -3,10 +3,13 @@ import { Typography } from 'antd'
 import '../../../styles/Dashboard.css'
 import DBContent from '../dashboard comps/DBContent'
 import { useEffect } from 'react';
+import { Alert } from "antd"
+import { useState } from 'react';
 
 const {Title} = Typography;
+
 function Dashboard(props){
-   
+    const [created, setCreated] = useState(false)
     useEffect(()=>{
         const ls = JSON.parse(localStorage.getItem('currentUser'))              
       checkForUsers(ls?.type)   
@@ -25,59 +28,6 @@ function Dashboard(props){
         props.setShowUsers((prevState)=>[...result])
     }
 
-    const createAdmin = ()=>{
-        const id = new Date().getTime()
-        
-        const userID = id.toString()
-        const userStr= userID.substring(8,11)
-        const newAdmin = [{
-            id: id,
-            type: 'admin',
-            user: `admin.user${userStr}`,
-            password: 'adminpass'
-        }]
-        props.setUsers(prevState => [...prevState, ...newAdmin])
-        
-    }
-   
-    const createOwner = ()=>{
-        const id = new Date().getTime()
-        
-        const userID = id.toString().substring(11,13)
-        const newOwner = [{
-            id: id,
-            type: 'owner',
-            user: `owner.user${userID}`,
-            password: 'ownerpass'
-        }]
-        props.setUsers(prevState => [...prevState, ...newOwner])
-    }
-
-    const createMember = ()=>{
-        const id = new Date().getTime()
-        
-        const userID = id.toString().substring(10,13)
-        const newMember = [{
-            id: id,
-            type: 'member',
-            user: `member.user${userID}`,
-            password: 'memberpass'
-        }]
-        props.setUsers(prevState => [...prevState, ...newMember])
-    }
-
-    const createGuest = ()=>{
-        const id = new Date().getTime()
-        
-        const userID = id.toString().substring(11,13)
-        const newGuest = [{
-            id: id,
-            type: 'guest',
-            user: `guest.user${userID}`,
-            password: 'guestpass'
-        }]
-        props.setUsers(prevState => [...prevState, ...newGuest])
-    }
 
     const checkForUsers = (info)=>{
         if(info === 'superuser'){
@@ -108,7 +58,8 @@ function Dashboard(props){
 
     return(
         <div className="dashboard">
-            <Header setShowUsers={props.setShowUsers} createGuest={createGuest} createMember={createMember} createOwner={createOwner} createAdmin={createAdmin} isLoggedIn={props.isLoggedIn} currentUser={props.currentUser} setIsLoggedIn={props.setIsLoggedIn} setCurrentUser={props.setCurrentUser}/>
+            <Header setCreated={setCreated} setUsers={props.setUsers} setShowUsers={props.setShowUsers} isLoggedIn={props.isLoggedIn} currentUser={props.currentUser} setIsLoggedIn={props.setIsLoggedIn} setCurrentUser={props.setCurrentUser}/>
+            {created ? <Alert style={{width:'250px',textAlign:'center',position:'absolute',right: 10, top:100,height:'70px',alignSelf:'right'}} type='success' message='User created successfully!'></Alert> : null}
             <Title className='content_title' style={{color:'#2375ab'}} level={3}>Dashboard</Title>
             <DBContent showUsers={props.showUsers}  currentUser={props.currentUser} users={props.users}/>
         </div>
