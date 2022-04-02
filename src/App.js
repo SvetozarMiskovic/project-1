@@ -6,6 +6,9 @@ import { useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import Warning from './demo/accessMgmt/pages/Warning';
 import {auth} from './Firebase'
+import {  Routes, Route, BrowserRouter } from 'react-router-dom';
+import UserView from './demo/accessMgmt/pages/UserView';
+import UserPage from './demo/accessMgmt/pages/UserPage';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -25,6 +28,8 @@ function App() {
     const ls = JSON.parse(localStorage.getItem('showUsers'))
     return ls ? ls : []
   })
+  const [selectedUser, setSelectedUser] = useState()
+
 
   onAuthStateChanged(auth, (user)=>{
     if(user){
@@ -34,14 +39,27 @@ function App() {
 
   if(isLoggedIn) {return (
       <div className='App'>
-        <Dashboard showUsers={showUsers} setShowUsers={setShowUsers} setUsers={setUsers} isLoggedIn={isLoggedIn} setCurrentUser={setCurrentUser} currentUser={currentUser} users={users} setIsLoggedIn={setIsLoggedIn}/>
+        <BrowserRouter>
+          <Routes>
+            <Route path='/project-1' element={<Dashboard showUsers={showUsers} setShowUsers={setShowUsers} setUsers={setUsers} isLoggedIn={isLoggedIn} setCurrentUser={setCurrentUser} currentUser={currentUser} users={users} setIsLoggedIn={setIsLoggedIn}/>}/>
+            <Route path='/user-view' element={<UserView selectedUser={selectedUser} setSelectedUser={setSelectedUser} users={users} currentUser={currentUser}/>}/>
+             {selectedUser ? <Route path={`/user/:${selectedUser?.id}`} element={<UserPage currentUser={currentUser} selectedUser={selectedUser}/>}/> : null}
+           
+            
+          </Routes>
+        </BrowserRouter>
       </div>)
     }
   else 
     {return (
       <div className="App">
-        {warning ? <Warning/> : null}
-        <Login setWarning={setWarning} setCurrentUser={setCurrentUser} currentUser={currentUser} isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} users={users}/>
+        <BrowserRouter>
+          <Routes>
+            <Route path='/project-1' element={<Login setWarning={setWarning} setCurrentUser={setCurrentUser} currentUser={currentUser} isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} users={users}/>}/>
+        
+          </Routes>
+          {warning ? <Warning/> : null}
+        </BrowserRouter>
       </div>
     )
   }

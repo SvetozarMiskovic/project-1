@@ -6,6 +6,7 @@ import Form from 'antd/lib/form/Form';
 import Input from "antd/lib/input/Input"
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../../Firebase.js';
+import { Link } from 'react-router-dom';
 
 
 const {Title} = Typography
@@ -137,9 +138,12 @@ function Header(props){
                 </Form> : 'You cannot create users as a guest!'}
             </Modal> 
            
-            <Title style={{color:'#fff', margin: 0}} level={3}>Logged in as: {props.currentUser?.type}, ID: {props.currentUser?.id}</Title>
+            <Title style={{color:'#fff', margin: 0}} level={3}>Logged in as: <span style={{color:'red'}}>{props.currentUser?.type}</span>, ID:<span style={{color:'red'}}> {props.currentUser?.id}</span></Title>
+            <div style={{display:'flex', flexDirection:'column', gap: '1rem'}}>
             <Logout setShowUsers={props.setShowUsers} setCurrentUser={props.setCurrentUser} isLoggedIn={props.isLoggedIn} setIsLoggedIn={props.setIsLoggedIn}/>
-            
+            <Link style={{textDecoration:'none', color:'#fff',textAlign:'center',  padding: '0.4rem', borderRadius:'0.4rem', backgroundColor:'#568203'}} to='/user-view'>UserView</Link>
+            </div>
+          
         </div>
     )
 }
