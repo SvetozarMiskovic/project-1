@@ -1,68 +1,85 @@
-import Input from "antd/lib/input/Input"
-import Form from "antd/lib/form/Form"
-import { Button } from "antd"
-import { useRef } from "react"
-import { Typography } from "antd"
-import { signInWithEmailAndPassword } from "firebase/auth"
-import '../../../styles/Login.css'
-import { auth } from "../../../Firebase"
+import Input from 'antd/lib/input/Input';
+import Form from 'antd/lib/form/Form';
+import { Button } from 'antd';
+import { useRef } from 'react';
+import { Typography } from 'antd';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import '../../../styles/Login.css';
+import { auth } from '../../../Firebase';
 
-const {Title, Text} = Typography;
+const { Title, Text } = Typography;
 
+function Login(props) {
+  const usernameRef = useRef();
+  const passwordRef = useRef();
 
-function Login(props){
-    const usernameRef = useRef()
-    const passwordRef = useRef()
-
-
-    const loginHandler = async (username, password)=>{
-        try{
-            await signInWithEmailAndPassword(auth, username, password);
-            props.users.map((user)=>{
-                if(username === user.user && password === user.password){
-                    props.setIsLoggedIn(true)
-                    props.setCurrentUser(user)
-                    return localStorage.setItem('currentUser',JSON.stringify(user))
-                }
-            })
-          
+  const loginHandler = async (username, password) => {
+    try {
+      await signInWithEmailAndPassword(auth, username, password);
+      props.users.map((user) => {
+        if (username === user.user && password === user.password) {
+          props.setIsLoggedIn(true);
+          props.setCurrentUser(user);
+          return localStorage.setItem('currentUser', JSON.stringify(user));
         }
-       catch{
-           
-           props.setWarning(true)
-            setTimeout(()=>{
-                props.setWarning(false)
-            }, 2000)
-       }
-      
+      });
+    } catch {
+      props.setWarning(true);
+      setTimeout(() => {
+        props.setWarning(false);
+      }, 2000);
     }
+  };
 
+  return (
+    <div className="container">
+      <Title
+        style={{ color: '#fff', margin: 0 }}
+        className="login_title"
+        level={2}
+      >
+        Please Log in!
+      </Title>
+      <Text style={{ color: '#fff' }} className="login_text" type="secondary">
+        This is <span style={{ color: 'red' }}>NOT</span> an open source
+        website! You need to have the credentials provided in order to access
+        the website!
+      </Text>
+      <Form
+        className="login_form"
+        onFinish={() => {
+          const username = usernameRef.current.input.value;
+          const password = passwordRef.current.input.value;
 
-    return(
-        <div className="container">
-            <Title style={{color:'#fff', margin:0}} className="login_title" level={2}>Please Log in!</Title>
-            <Text style={{color:'#fff'}}className='login_text'type="secondary">This is <span style={{color:'red'}}>NOT</span> an open source website! You need to have the credentials provided in order to access the website!</Text>
-            <Form
-                className="login_form"
-                onFinish={()=>{
-                    const username = usernameRef.current.input.value;
-                    const password = passwordRef.current.input.value;
-                    
-                    loginHandler(username, password)
-                }}
-                name="basic"
-                
-                
-                autoComplete="off"
-                >
-                <Title style={{color: '#fff', margin: 0}} level={3}>Username</Title>
-                <Input ref={usernameRef} required type={'text'} placeholder="Enter username"></Input>
-                <Title style={{color: '#fff', margin: 0}} level={3}>Password</Title>
-                <Input ref={passwordRef} required type={'password'} placeholder="Enter password"></Input>
-                <Button className='login_button' htmlType={'submit'} type="secondary">Log in</Button>     
-            </Form>
-        </div>  
-    )
+          loginHandler(username, password);
+        }}
+        name="basic"
+        autoComplete="off"
+      >
+        <Title style={{ color: '#fff', margin: 0 }} level={3}>
+          Username
+        </Title>
+        <Input
+          ref={usernameRef}
+          required
+          type={'text'}
+          placeholder="Enter username"
+        ></Input>
+        <Title style={{ color: '#fff', margin: 0 }} level={3}>
+          Password
+        </Title>
+        <Input
+          ref={passwordRef}
+          required
+          type={'password'}
+          placeholder="Enter password"
+        ></Input>
+        <Button className="login_button" htmlType={'submit'} type="secondary">
+          Log in
+        </Button>
+      </Form>
+    </div>
+  );
 }
 
-export default Login
+export default Login;

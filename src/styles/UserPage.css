@@ -15,3 +15,63 @@
     justify-content: space-evenly;
    
 }
+.up_content{
+    display: flex;
+    justify-content: center;
+    
+}
+.profile_card{
+    display: grid;
+    max-width: 1320px;
+    grid-template-columns: repeat(2, 1fr);
+    width: 100%;
+    background-color: #2375ab;
+    grid-template-areas: 
+    "header header"
+    "name organisation"
+    "email password"
+    "type id"
+}
+/* .edit_button{
+    background-color: #FF6B6B
+
+} */
+.edit_button:hover{
+    background-color: #FF6B6B;
+    color: white;
+}
+.user_email, .user_name, .user_organisation, .user_type, .user_password, .user_id{
+
+    align-items: center;
+    margin: 1rem;
+    padding: 1rem;
+  
+}
+
+.user_email{
+    grid-area: "email";
+    
+}
+
+.user_name{
+    grid-area: "name";
+}
+
+.user_organisation{
+    grid-area: "organsiation";
+}
+
+.user_type{
+    grid-area: "type";
+}
+.user_password{
+    grid-area: "password";
+}
+
+.user_id{
+    grid-area: "id";
+}
+
+.user_header{
+    grid-area: header;
+}

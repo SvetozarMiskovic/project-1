@@ -1,9 +1,12 @@
-import { Alert } from "antd"
+import { Alert } from 'antd';
 
-function Warning(){
-    return (
-        <Alert message="Something went wrong! Check your credentials and try again!" type="error" /> 
-    )
+function Warning() {
+  return (
+    <Alert
+      message="Something went wrong! Check your credentials and try again!"
+      type="error"
+    />
+  );
 }
 
-export default Warning
+export default Warning;
