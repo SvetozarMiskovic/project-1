@@ -12,10 +12,9 @@ function DBContent(props) {
             style={{
               color: '#fff',
               textAlign: 'center',
-              borderBottom: '1px solid white',
+              borderBottom: '1px solid white'
             }}
-            level={3}
-          >
+            level={3}>
             Super users
           </Title>
           <List className="single_list" size="small">
@@ -28,11 +27,10 @@ function DBContent(props) {
                       margin: '0',
                       borderBottom: '1px solid white',
                       display: 'flex',
-                      alignItems: 'center',
+                      alignItems: 'center'
                     }}
                     key={user.id}
-                    level={5}
-                  >
+                    level={5}>
                     - {user.type}, ID:{user.id}
                   </Title>
                 );
@@ -44,10 +42,9 @@ function DBContent(props) {
             style={{
               color: '#fff',
               textAlign: 'center',
-              borderBottom: '1px solid white',
+              borderBottom: '1px solid white'
             }}
-            level={3}
-          >
+            level={3}>
             Admins
           </Title>
           <List className="single_list" size="small">
@@ -58,11 +55,10 @@ function DBContent(props) {
                     style={{
                       color: '#fff',
                       margin: '0',
-                      borderBottom: '1px solid white',
+                      borderBottom: '1px solid white'
                     }}
                     key={user.id}
-                    level={5}
-                  >
+                    level={5}>
                     - {user.type}, ID:{user.id}
                   </Title>
                 );
@@ -74,10 +70,9 @@ function DBContent(props) {
             style={{
               color: '#fff',
               textAlign: 'center',
-              borderBottom: '1px solid white',
+              borderBottom: '1px solid white'
             }}
-            level={3}
-          >
+            level={3}>
             Owners
           </Title>
           <List className="single_list" size="small">
@@ -88,11 +83,10 @@ function DBContent(props) {
                     style={{
                       color: '#fff',
                       margin: '0',
-                      borderBottom: '1px solid white',
+                      borderBottom: '1px solid white'
                     }}
                     key={user.id}
-                    level={5}
-                  >
+                    level={5}>
                     - {user.type}, ID:{user.id}
                   </Title>
                 );
@@ -103,11 +97,11 @@ function DBContent(props) {
           <Title
             style={{
               color: '#fff',
+
               textAlign: 'center',
-              borderBottom: '1px solid white',
+              borderBottom: '1px solid white'
             }}
-            level={3}
-          >
+            level={3}>
             Members
           </Title>
           <List className="single_list" size="small">
@@ -118,11 +112,10 @@ function DBContent(props) {
                     style={{
                       color: '#fff',
                       margin: '0',
-                      borderBottom: '1px solid white',
+                      borderBottom: '1px solid white'
                     }}
                     key={user.id}
-                    level={5}
-                  >
+                    level={5}>
                     - {user.type}, ID:{user.id}
                   </Title>
                 );
@@ -134,10 +127,9 @@ function DBContent(props) {
             style={{
               color: '#fff',
               textAlign: 'center',
-              borderBottom: '1px solid white',
+              borderBottom: '1px solid white'
             }}
-            level={3}
-          >
+            level={3}>
             Guests
           </Title>
           <List className="single_list" size="small">
@@ -148,11 +140,10 @@ function DBContent(props) {
                     style={{
                       color: '#fff',
                       margin: '0',
-                      borderBottom: '1px solid white',
+                      borderBottom: '1px solid white'
                     }}
                     key={user.id}
-                    level={5}
-                  >
+                    level={5}>
                     - {user.type}, ID:{user.id}
                   </Title>
                 );

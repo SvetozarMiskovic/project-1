@@ -9,15 +9,13 @@ function UserView(props) {
   return (
     <div className="user_view">
       <UVHeader currentUser={props.currentUser} />;
-      <Title
-        level={2}
-        style={{ textAlign: 'center', margin: '1rem', color: '#2375ab' }}
-      >
+      <Title level={2} style={{ textAlign: 'center', margin: '1rem', color: '#2375ab' }}>
         UserView
       </Title>
       ;
       <UVContent
         showUsers={props.showUsers}
+        selectedUser={props.selectedUser}
         setSelectedUser={props.setSelectedUser}
         users={props.users}
       />

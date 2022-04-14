@@ -9,45 +9,13 @@ import { auth } from './Firebase';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import UserView from './demo/accessMgmt/pages/UserView';
 import UserPage from './demo/accessMgmt/pages/UserPage';
+import { usersData } from './demo/accessMgmt/data/UsersData';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [users, setUsers] = useState(() => {
     const ls = JSON.parse(localStorage.getItem('users'));
-    return ls
-      ? ls
-      : [
-          {
-            type: 'superuser',
-            user: 'super.user@user.com',
-            password: 'superpass',
-            id: 1,
-          },
-          {
-            type: 'admin',
-            user: 'admin.user@user.com',
-            password: 'adminpass',
-            id: 2,
-          },
-          {
-            type: 'owner',
-            user: 'owner.user@user.com',
-            password: 'ownerpass',
-            id: 3,
-          },
-          {
-            type: 'member',
-            user: 'member.user@user.com',
-            password: 'memberpass',
-            id: 4,
-          },
-          {
-            type: 'guest',
-            user: 'guest.user@user.com',
-            password: 'guestpass',
-            id: 5,
-          },
-        ];
+    return ls ? ls : usersData;
   });
   const [currentUser, setCurrentUser] = useState(() => {
     const lsUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -102,7 +70,7 @@ function App() {
             />
             {selectedUser ? (
               <Route
-                path={`/user/:${selectedUser?.id}`}
+                path={'/user/:userId'}
                 element={
                   <UserPage
                     setShowUsers={setShowUsers}

@@ -11,8 +11,7 @@ function UPContent(props) {
         <Title
           className="user_header"
           level={3}
-          style={{ color: '#fff', textAlign: 'center', margin: '1rem' }}
-        >
+          style={{ color: '#fff', textAlign: 'center', margin: '1rem' }}>
           User Details
         </Title>
         <div className="user_name">
@@ -25,8 +24,7 @@ function UPContent(props) {
             size="large"
             style={{ color: '#2375ab' }}
             type={'text'}
-            disabled
-          ></Input>
+            disabled></Input>
           <Button
             id="#name"
             className="edit_button"
@@ -40,9 +38,8 @@ function UPContent(props) {
 
               width: '100%',
               marginTop: '0.6rem',
-              border: 'none',
-            }}
-          >
+              border: 'none'
+            }}>
             Edit
           </Button>
         </div>
@@ -56,8 +53,7 @@ function UPContent(props) {
             size="large"
             style={{ color: '#2375ab' }}
             type={'text'}
-            disabled
-          ></Input>
+            disabled></Input>
           <Button
             id="#org"
             className="edit_button"
@@ -70,9 +66,8 @@ function UPContent(props) {
               textAlign: 'center',
               width: '100%',
               marginTop: '0.6rem',
-              border: 'none',
-            }}
-          >
+              border: 'none'
+            }}>
             Edit
           </Button>
         </div>
@@ -86,14 +81,9 @@ function UPContent(props) {
             size="large"
             style={{ color: '#2375ab' }}
             type={'text'}
-            disabled
-          ></Input>
+            disabled></Input>
 
-          <Title
-            style={{ color: '#FF6B6B', textAlign: 'center' }}
-            italic={true}
-            level={4}
-          >
+          <Title style={{ color: '#FF6B6B', textAlign: 'center' }} italic={true} level={4}>
             You cannot change the email!
           </Title>
         </div>
@@ -103,20 +93,13 @@ function UPContent(props) {
           </Title>
           <Input
             placeholder="/no password"
-            value={
-              props.selectedUser?.password ? props.selectedUser?.password : null
-            }
+            value={props.selectedUser?.password ? props.selectedUser?.password : null}
             size="large"
             style={{ color: '#2375ab' }}
             type={'text'}
-            disabled
-          ></Input>
+            disabled></Input>
 
-          <Title
-            style={{ color: '#FF6B6B', textAlign: 'center' }}
-            italic={true}
-            level={4}
-          >
+          <Title style={{ color: '#FF6B6B', textAlign: 'center' }} italic={true} level={4}>
             Contact your superuser to reset the password for this account!
           </Title>
         </div>
@@ -130,8 +113,7 @@ function UPContent(props) {
             size="large"
             style={{ color: '#2375ab' }}
             type={'text'}
-            disabled
-          ></Input>
+            disabled></Input>
           <Button
             id="#type"
             className="edit_button"
@@ -145,9 +127,8 @@ function UPContent(props) {
 
               width: '100%',
               marginTop: '0.6rem',
-              border: 'none',
-            }}
-          >
+              border: 'none'
+            }}>
             Edit
           </Button>
         </div>
@@ -161,14 +142,9 @@ function UPContent(props) {
             size="large"
             style={{ color: '#2375ab' }}
             type={'text'}
-            disabled
-          ></Input>
+            disabled></Input>
 
-          <Title
-            style={{ color: '#FF6B6B', textAlign: 'center' }}
-            italic={true}
-            level={4}
-          >
+          <Title style={{ color: '#FF6B6B', textAlign: 'center' }} italic={true} level={4}>
             IDs are given when the account is created and cannot be modified!
           </Title>
         </div>

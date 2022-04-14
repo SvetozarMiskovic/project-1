@@ -4,11 +4,14 @@ import UPHeader from '../user page content/UPHeader';
 import { Modal, Typography, Input } from 'antd';
 import { useEffect, useState } from 'react';
 import { Select } from 'antd';
-
+import { Alert } from 'antd';
+// import { useLocation } from 'react-router-dom';
 const { Title } = Typography;
 const { Option } = Select;
 
 function UserPage(props) {
+  // const location = useLocation();
+
   const [editMode, setEditMode] = useState(false);
   const [property, setProperty] = useState();
 
@@ -16,6 +19,8 @@ function UserPage(props) {
   const [newOrg, setNewOrg] = useState();
   const [newType, setNewType] = useState();
 
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [isCanceled, setIsCanceled] = useState(false);
   useEffect(() => {
     addToUsersList();
     const ls = JSON.parse(localStorage.getItem('currentUser'));
@@ -64,10 +69,7 @@ function UserPage(props) {
       getUsers(result);
     } else if (info === 'member') {
       const result = props.users.filter(
-        (user) =>
-          user?.type !== 'superuser' &&
-          user?.type !== 'admin' &&
-          user?.type !== 'owner'
+        (user) => user?.type !== 'superuser' && user?.type !== 'admin' && user?.type !== 'owner'
       );
       getUsers(result);
     } else if (info === 'guest') {
@@ -84,9 +86,7 @@ function UserPage(props) {
   };
 
   const addToUsersList = () => {
-    const newList = props.users.filter(
-      (user) => user.id !== props.selectedUser.id
-    );
+    const newList = props.users.filter((user) => user.id !== props.selectedUser.id);
 
     props.setUsers(() => {
       return [...newList, props.selectedUser];
@@ -105,11 +105,7 @@ function UserPage(props) {
             <Title style={{ color: '#2375ab' }} level={4}>
               Enter new name:
             </Title>
-            <Input
-              value={newName}
-              onChange={(e) => setNewName(e.target.value)}
-              type="text"
-            ></Input>
+            <Input value={newName} onChange={(e) => setNewName(e.target.value)} type="text"></Input>
           </>
         );
       case 'org':
@@ -118,11 +114,7 @@ function UserPage(props) {
             <Title style={{ color: '#2375ab' }} level={4}>
               Enter new organisation:
             </Title>
-            <Input
-              value={newOrg}
-              onChange={(e) => setNewOrg(e.target.value)}
-              type="text"
-            ></Input>
+            <Input value={newOrg} onChange={(e) => setNewOrg(e.target.value)} type="text"></Input>
           </>
         );
 
@@ -141,7 +133,10 @@ function UserPage(props) {
   const makeOptions = () => {
     if (props.currentUser?.type === 'superuser') {
       return (
-        <Select onChange={onChange} style={{ width: '100%' }}>
+        <Select
+          defaultValue={props.selectedUser.type}
+          onChange={onChange}
+          style={{ width: '100%' }}>
           <Option key={'admin'}>admin</Option>
           <Option key={'owner'}>owner</Option>
           <Option key={'member'}>member</Option>
@@ -150,7 +145,10 @@ function UserPage(props) {
       );
     } else if (props.currentUser?.type === 'admin') {
       return (
-        <Select onChange={onChange} style={{ width: '100%' }}>
+        <Select
+          defaultValue={props.selectedUser.type}
+          onChange={onChange}
+          style={{ width: '100%' }}>
           <Option key={'owner'}>owner</Option>
           <Option key={'member'}>member</Option>
           <Option key={'guest'}>guest</Option>
@@ -158,20 +156,29 @@ function UserPage(props) {
       );
     } else if (props.currentUser?.type === 'owner') {
       return (
-        <Select onChange={onChange} style={{ width: '100%' }}>
+        <Select
+          defaultValue={props.selectedUser?.type}
+          onChange={onChange}
+          style={{ width: '100%' }}>
           <Option key={'member'}>member</Option>
           <Option key={'guest'}>guest</Option>
         </Select>
       );
     } else if (props.currentUser?.type === 'member') {
       return (
-        <Select onChange={onChange} style={{ width: '100%' }}>
+        <Select
+          defaultValue={props.selectedUser?.type}
+          onChange={onChange}
+          style={{ width: '100%' }}>
           <Option key={'guest'}>guest</Option>
         </Select>
       );
     } else if (props.currentUser?.type === 'guest') {
       return (
-        <Select onChange={onChange} style={{ width: '100%' }}>
+        <Select
+          defaultValue={props.selectedUser?.type}
+          onChange={onChange}
+          style={{ width: '100%' }}>
           <Option key={'guest'}>
             <h3 style={{ color: '#2375ab' }}>No options</h3>
           </Option>
@@ -179,23 +186,48 @@ function UserPage(props) {
       );
     }
   };
+
   return (
     <div className="user_page">
-      <UPHeader
-        currentUser={props.currentUser}
-        selectedUser={props.selectedUser}
-      />
-      <Title
-        level={2}
-        style={{ textAlign: 'center', margin: '1rem', color: '#2375ab' }}
-      >
+      <UPHeader currentUser={props.currentUser} selectedUser={props.selectedUser} />
+      <Title level={2} style={{ textAlign: 'center', margin: '1rem', color: '#2375ab' }}>
         User profile
       </Title>
+      {isSuccess ? (
+        <Alert
+          style={{
+            position: 'absolute',
+            top: '4.6rem',
+            right: '1rem'
+          }}
+          message={'Success!'}
+          description={'Updated profile successfuly!'}
+          showIcon
+          type="success"
+        />
+      ) : null}
+      {isCanceled ? (
+        <Alert
+          style={{
+            position: 'absolute',
+            top: '4.6rem',
+            right: '1rem'
+          }}
+          message={'Canceled!'}
+          description={'Canceled the edit!'}
+          showIcon
+          type="info"
+        />
+      ) : null}
       <Modal
         title="Edit user info"
         visible={editMode}
         onCancel={() => {
           setEditMode(false);
+          setIsCanceled(true);
+          setTimeout(() => {
+            setIsCanceled(false);
+          }, 1500);
         }}
         onOk={() => {
           switch (property) {
@@ -214,9 +246,12 @@ function UserPage(props) {
           }
           addToUsersList();
           setEditMode(false);
+          setIsSuccess(true);
+          setTimeout(() => {
+            setIsSuccess(false);
+          }, 1500);
         }}
-        okText="Save"
-      >
+        okText="Save">
         {makeModalContent()}
       </Modal>
       <UPContent
