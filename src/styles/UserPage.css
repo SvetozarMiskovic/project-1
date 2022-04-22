@@ -75,3 +75,17 @@
 .user_header{
     grid-area: header;
 }
+
+@media (max-width: 768px){
+    .profile_card{
+        grid-template-columns: 1fr;
+        grid-template-areas: 
+    "header"
+    "name"
+    "organisation"
+    "email"
+    "password"
+    "type"
+    "id"
+    }
+}

@@ -68,22 +68,21 @@ function App() {
                 />
               }
             />
-            {selectedUser ? (
-              <Route
-                path={'/user/:userId'}
-                element={
-                  <UserPage
-                    setShowUsers={setShowUsers}
-                    showUsers={showUsers}
-                    users={users}
-                    setUsers={setUsers}
-                    currentUser={currentUser}
-                    selectedUser={selectedUser}
-                    setSelectedUser={setSelectedUser}
-                  />
-                }
-              />
-            ) : null}
+
+            <Route
+              path={'/user/:userId'}
+              element={
+                <UserPage
+                  setShowUsers={setShowUsers}
+                  showUsers={showUsers}
+                  users={users}
+                  setUsers={setUsers}
+                  currentUser={currentUser}
+                  selectedUser={selectedUser}
+                  setSelectedUser={setSelectedUser}
+                />
+              }
+            />
           </Routes>
         </BrowserRouter>
       </div>

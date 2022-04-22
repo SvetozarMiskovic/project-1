@@ -1,17 +1,15 @@
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import '../../../styles/UserView.css';
 
 function UVContent(props) {
-  const { userId = props.selectedUser?.id } = useParams();
-
   return (
     <div className="uv_content">
       {props.showUsers?.map((user) => {
         return (
           <Link
-            to={'/user/' + userId}
+            to={`/user/${user.id}`}
             onClick={() => {
-              props.setSelectedUser(user);
+              props.setSelectedUser(user.id);
             }}
             key={user.id}
             className="user_box">
