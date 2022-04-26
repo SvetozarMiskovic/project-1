@@ -17,16 +17,14 @@ function UVHeader(props) {
           textAlign: 'center',
           padding: '0.4rem',
           borderRadius: '0.4rem',
-          backgroundColor: '#568203',
+          backgroundColor: '#568203'
         }}
         className="back_button"
-        to="/project-1"
-      >
+        to="/">
         Back to Dashboard
       </Link>
       <Title style={{ color: '#fff', margin: 0 }} level={3}>
-        Logged in as:{' '}
-        <span style={{ color: 'red' }}>{props.currentUser?.type}</span>, ID:
+        Logged in as: <span style={{ color: 'red' }}>{props.currentUser?.type}</span>, ID:
         <span style={{ color: 'red' }}> {props.currentUser?.id}</span>
       </Title>
     </div>
