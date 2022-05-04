@@ -33,6 +33,7 @@ function UPContent(props) {
                   type="default"
                   onClick={() => {
                     props.setEditMode(true);
+                    props.setOption('name');
                   }}
                   style={{
                     textAlign: 'center',
@@ -67,38 +68,43 @@ function UPContent(props) {
                     gap: '2rem'
                   }}>
                   {user.org ? (
-                    <Button
-                      className="edit_button"
-                      onClick={() => {
-                        props.setEditMode(true);
-                      }}
-                      type="default"
-                      style={{
-                        textAlign: 'center',
-                        width: '100%',
-                        marginTop: '0.6rem',
-                        border: 'none'
-                      }}>
-                      Edit
-                    </Button>
-                  ) : null}
-                  {user.org ? (
-                    <Button
-                      className="view_button"
-                      type="default"
-                      style={{
-                        textAlign: 'center',
-                        width: '100%',
-                        marginTop: '0.6rem',
-                        border: 'none'
-                      }}>
-                      View org
-                    </Button>
-                  ) : null}
-                  {!user.org ? (
+                    <>
+                      <Button
+                        className="edit_button"
+                        onClick={() => {
+                          props.setEditMode(true);
+                          props.setOption('org');
+                        }}
+                        type="default"
+                        style={{
+                          textAlign: 'center',
+                          width: '100%',
+                          marginTop: '0.6rem',
+                          border: 'none'
+                        }}>
+                        Edit
+                      </Button>
+                      <Button
+                        className="view_button"
+                        type="default"
+                        style={{
+                          textAlign: 'center',
+                          width: '100%',
+                          marginTop: '0.6rem',
+                          border: 'none'
+                        }}
+                        onClick={props.openOrg}>
+                        View org
+                      </Button>
+                    </>
+                  ) : (
                     <Button
                       className="create_button"
                       type="default"
+                      onClick={() => {
+                        props.setEditMode(true);
+                        props.setOption('createOrg');
+                      }}
                       style={{
                         textAlign: 'center',
                         width: '100%',
@@ -107,7 +113,7 @@ function UPContent(props) {
                       }}>
                       Create org
                     </Button>
-                  ) : null}
+                  )}
                 </div>
               </div>
               <div className="user_email">
@@ -158,6 +164,7 @@ function UPContent(props) {
                   className="edit_button"
                   onClick={() => {
                     props.setEditMode(true);
+                    props.setOption('type');
                   }}
                   type="default"
                   style={{

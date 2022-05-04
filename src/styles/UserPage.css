@@ -36,7 +36,7 @@
     background-color: #FF6B6B
 
 } */
-.edit_button:hover{
+.edit_button:hover, .view_button:hover, .create_button:hover{
     background-color: #FF6B6B;
     color: white;
 }
