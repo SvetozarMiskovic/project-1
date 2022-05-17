@@ -2,10 +2,13 @@ import '../../../styles/UserView.css';
 import UVHeader from '../userview content/UVHeader';
 import UVContent from '../userview content/UVContent';
 import { Typography } from 'antd';
-
+import { useEffect } from 'react';
 const { Title } = Typography;
 
 function UserView(props) {
+  useEffect(() => {
+    localStorage.setItem('users', JSON.stringify(props.users));
+  }, []);
   return (
     <div className="user_view">
       <UVHeader currentUser={props.currentUser} />;

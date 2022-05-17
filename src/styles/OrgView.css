@@ -1,0 +1,25 @@
+.org_view{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    
+}
+
+.ov_header{
+    width: 100%;
+    background-color: #2372ab;
+    display: flex;
+    padding: 1rem;
+    justify-content: space-evenly;
+}
+
+.ov_content{
+    width: 100%;
+    max-width: 800px;
+    background-color: #2375ab;
+    align-self: center;
+    margin: 1rem;
+    color: white;
+}

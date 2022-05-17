@@ -88,4 +88,14 @@
     "type"
     "id"
     }
+    .up_header{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+       gap:1rem
+    }
+    .up_backBtn{
+        width: 100%;
+
+    }
 }

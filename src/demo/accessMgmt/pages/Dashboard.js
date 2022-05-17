@@ -1,7 +1,7 @@
-import Header from '../dashboard comps/Header';
+import Header from '../dashboard content/Header';
 import { Typography } from 'antd';
 import '../../../styles/Dashboard.css';
-import DBContent from '../dashboard comps/DBContent';
+import DBContent from '../dashboard content/DBContent';
 import { useEffect } from 'react';
 import { Alert } from 'antd';
 import { useState } from 'react';
@@ -18,9 +18,16 @@ function Dashboard(props) {
   useEffect(() => {
     const ls = JSON.parse(localStorage.getItem('currentUser'));
     checkForUsers(ls?.type);
+
     localStorage.setItem('users', JSON.stringify(props.users));
+    localStorage.setItem('showUsers', JSON.stringify(props.showUsers));
   }, [props.users]);
 
+  useEffect(() => {
+    const ls = JSON.parse(localStorage.getItem('currentUser'));
+    checkForUsers(ls?.type);
+    localStorage.setItem('showUsers', JSON.stringify(props.showUsers));
+  }, []);
   const getUsers = (result) => {
     props.setShowUsers(() => [...result]);
   };
@@ -38,10 +45,7 @@ function Dashboard(props) {
       getUsers(result);
     } else if (info === 'member') {
       const result = props.users.filter(
-        (user) =>
-          user?.type !== 'superuser' &&
-          user?.type !== 'admin' &&
-          user?.type !== 'owner'
+        (user) => user?.type !== 'superuser' && user?.type !== 'admin' && user?.type !== 'owner'
       );
       getUsers(result);
     } else if (info === 'guest') {
@@ -54,8 +58,6 @@ function Dashboard(props) {
       );
       getUsers(result);
     }
-
-    return localStorage.setItem('showUsers', JSON.stringify(props.showUsers));
   };
 
   return (
@@ -78,20 +80,15 @@ function Dashboard(props) {
             right: 10,
             top: 100,
             height: '70px',
-            alignSelf: 'right',
+            alignSelf: 'right'
           }}
           type="success"
-          message="User created successfully!"
-        ></Alert>
+          message="User created successfully!"></Alert>
       ) : null}
       <Title className="content_title" style={{ color: '#2375ab' }} level={3}>
         Dashboard
       </Title>
-      <DBContent
-        showUsers={props.showUsers}
-        currentUser={props.currentUser}
-        users={props.users}
-      />
+      <DBContent showUsers={props.showUsers} currentUser={props.currentUser} users={props.users} />
     </div>
   );
 }

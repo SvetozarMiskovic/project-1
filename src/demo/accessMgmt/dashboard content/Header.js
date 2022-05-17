@@ -30,8 +30,8 @@ function Header(props) {
         id,
         user: userRef.current.input.value,
         password: passRef.current.input.value,
-        type: selectedType,
-      },
+        type: selectedType
+      }
     ];
     if (userRef.current.input.value && passRef.current.input.value) {
       props.setUsers((prevState) => [...prevState, ...newUser]);
@@ -104,9 +104,8 @@ function Header(props) {
   return (
     <div className="header">
       <Button
-        style={{ color: '#D56062', fontSize: '1rem', textAlign: 'center' }}
-        onClick={() => setCreateMode(true)}
-      >
+        style={{ color: '#D56062', fontSize: '1rem', textAlign: 'center', border: 'none' }}
+        onClick={() => setCreateMode(true)}>
         Create a user
       </Button>
       <Modal
@@ -121,31 +120,19 @@ function Header(props) {
           props.currentUser?.type === 'guest'
             ? { style: { display: 'none' } }
             : { style: { display: 'inline' } }
-        }
-      >
+        }>
         {missingInfo ? (
           <Alert
             style={{ marginBottom: '1rem' }}
             type="error"
-            message="Please fill in the required information!"
-          ></Alert>
+            message="Please fill in the required information!"></Alert>
         ) : null}
         {props.currentUser?.type !== 'guest' ? (
           <Form>
             <Title level={5}>Enter username</Title>
-            <Input
-              type="text"
-              ref={userRef}
-              placeholder="i.e. name@name.com"
-              required
-            ></Input>
+            <Input type="text" ref={userRef} placeholder="i.e. name@name.com" required></Input>
             <Title level={5}>Enter password</Title>
-            <Input
-              type="text"
-              ref={passRef}
-              placeholder="password"
-              required
-            ></Input>
+            <Input type="text" ref={passRef} placeholder="password" required></Input>
             <Title level={5}>Choose user type</Title>
 
             {makeOptions()}
@@ -156,11 +143,10 @@ function Header(props) {
       </Modal>
 
       <Title style={{ color: '#fff', margin: 0 }} level={3}>
-        Logged in as:{' '}
-        <span style={{ color: 'red' }}>{props.currentUser?.type}</span>, ID:
+        Logged in as: <span style={{ color: 'red' }}>{props.currentUser?.type}</span>, ID:
         <span style={{ color: 'red' }}> {props.currentUser?.id}</span>
       </Title>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      <div style={{ display: 'flex', flexDirection: 'row', gap: '1rem' }}>
         <Logout
           setShowUsers={props.setShowUsers}
           setCurrentUser={props.setCurrentUser}
@@ -174,12 +160,25 @@ function Header(props) {
             textAlign: 'center',
             padding: '0.4rem',
             borderRadius: '0.4rem',
-            backgroundColor: '#568203',
+            backgroundColor: '#568203'
           }}
-          to="/user-view"
-        >
+          to="/user-view">
           UserView
         </Link>
+        {props.currentUser?.type === 'superuser' || props.currentUser?.type === 'admin' ? (
+          <Link
+            style={{
+              textDecoration: 'none',
+              color: '#fff',
+              textAlign: 'center',
+              padding: '0.4rem',
+              borderRadius: '0.4rem',
+              backgroundColor: '#568203'
+            }}
+            to="/org-view">
+            OrgView
+          </Link>
+        ) : null}
       </div>
     </div>
   );

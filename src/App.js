@@ -10,6 +10,8 @@ import { Routes, Route } from 'react-router-dom';
 import UserView from './demo/accessMgmt/pages/UserView';
 import UserPage from './demo/accessMgmt/pages/UserPage';
 import { usersData } from './demo/accessMgmt/data/UsersData';
+import OrgView from './demo/accessMgmt/pages/OrgView';
+import OrgPage from './demo/accessMgmt/pages/OrgPage';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -29,6 +31,10 @@ function App() {
     return ls ? ls : [];
   });
   const [selectedUser, setSelectedUser] = useState();
+  const [orgs, setOrgs] = useState(() => {
+    const ls = JSON.parse(localStorage.getItem('organisations'));
+    return ls ? ls : [];
+  });
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -82,6 +88,19 @@ function App() {
               />
             }
           />
+          <Route
+            path="/org-view"
+            element={
+              <OrgView
+                orgs={orgs}
+                setOrgs={setOrgs}
+                showUsers={showUsers}
+                users={users}
+                currentUser={currentUser}
+              />
+            }
+          />
+          <Route path="/org/:orgId" element={<OrgPage />} />
         </Routes>
       </div>
     );

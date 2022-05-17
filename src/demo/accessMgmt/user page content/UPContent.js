@@ -70,21 +70,6 @@ function UPContent(props) {
                   {user.org ? (
                     <>
                       <Button
-                        className="edit_button"
-                        onClick={() => {
-                          props.setEditMode(true);
-                          props.setOption('org');
-                        }}
-                        type="default"
-                        style={{
-                          textAlign: 'center',
-                          width: '100%',
-                          marginTop: '0.6rem',
-                          border: 'none'
-                        }}>
-                        Edit
-                      </Button>
-                      <Button
                         className="view_button"
                         type="default"
                         style={{
@@ -98,21 +83,15 @@ function UPContent(props) {
                       </Button>
                     </>
                   ) : (
-                    <Button
-                      className="create_button"
-                      type="default"
-                      onClick={() => {
-                        props.setEditMode(true);
-                        props.setOption('createOrg');
-                      }}
+                    <Title
                       style={{
                         textAlign: 'center',
                         width: '100%',
-                        marginTop: '0.6rem',
-                        border: 'none'
-                      }}>
-                      Create org
-                    </Button>
+                        color: '#FF6B6B'
+                      }}
+                      level={4}>
+                      User is not part of any organisation!
+                    </Title>
                   )}
                 </div>
               </div>

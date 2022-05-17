@@ -2,7 +2,7 @@ import '../../../styles/UserPage.css';
 import UPContent from '../user page content/UPContent';
 import UPHeader from '../user page content/UPHeader';
 import { Modal, Typography } from 'antd'; // Input
-import { useState, useRef, useEffect } from 'react'; //
+import { useState, useRef } from 'react'; //
 import { Input } from 'antd';
 import { Select } from 'antd';
 import { Alert } from 'antd';
@@ -14,15 +14,12 @@ const { Option } = Select;
 function UserPage(props) {
   const { userId } = useParams();
 
-  useEffect(() => {
-    localStorage.setItem('users', JSON.stringify(props.users));
-  }, [props.users]);
   const [editMode, setEditMode] = useState(false);
   const [viewOrg, setViewOrg] = useState(false);
   const [selectedType, setSelectedType] = useState();
   const [option, setOption] = useState();
   const newName = useRef();
-  const newOrgName = useRef();
+
   const [isSuccess, setIsSuccess] = useState(false);
   const [isCanceled, setIsCanceled] = useState(false);
 
@@ -35,6 +32,13 @@ function UserPage(props) {
     return () => clearTimeout(SUT);
   };
 
+  const canceledTimer = () => {
+    setIsCanceled(true);
+    const CAT = setTimeout(() => {
+      setIsCanceled(false);
+    }, 1500);
+    return () => clearTimeout(CAT);
+  };
   const closeOrg = () => {
     setViewOrg(false);
   };
@@ -56,26 +60,6 @@ function UserPage(props) {
 
     userInfo.type = selectedType;
     const filtered = props.users.filter((user) => user.id !== Number(userId));
-    props.setUsers([...filtered, userInfo]);
-    succTimer();
-  };
-
-  const createOrg = () => {
-    const [userInfo] = props.users.filter((user) => user.id === Number(userId));
-
-    userInfo.org = { name: newOrgName.current?.input.value ? newOrgName.current?.input.value : '' };
-    const filtered = props.users.filter((user) => user.id !== Number(userId));
-
-    props.setUsers([...filtered, userInfo]);
-    succTimer();
-  };
-
-  const editOrg = () => {
-    const [userInfo] = props.users.filter((user) => user.id === Number(userId));
-
-    userInfo.org = { name: newOrgName.current?.input.value ? newOrgName.current?.input.value : '' };
-    const filtered = props.users.filter((user) => user.id !== Number(userId));
-
     props.setUsers([...filtered, userInfo]);
     succTimer();
   };
@@ -183,41 +167,6 @@ function UserPage(props) {
           {makeOptions()}
         </>
       );
-    } else if (option === 'createOrg') {
-      return (
-        <>
-          <Title level={5} underline italic>
-            Create the organisation
-          </Title>
-          <Title level={4}>Org Name</Title>
-          <Input ref={newOrgName} type={'text'}></Input>
-          <Title style={{ marginTop: '1rem' }} level={4}>
-            Users assigned
-          </Title>
-          <Title level={5}>NO ASSIGNED USERS!</Title>
-        </>
-      );
-    } else if (option === 'org') {
-      return (
-        <>
-          <Title level={5} underline italic>
-            Edit the organisation
-          </Title>
-          <Title level={4}>Org Name</Title>
-          <Input
-            defaultValue={() => {
-              const [userInfo] = props.users.filter((user) => user.id === Number(userId));
-
-              return userInfo.org ? userInfo.org.name : null;
-            }}
-            ref={newOrgName}
-            type={'text'}></Input>
-          <Title style={{ marginTop: '1rem' }} level={4}>
-            Users assigned
-          </Title>
-          <Title level={5}>NO ASSIGNED USERS!</Title>
-        </>
-      );
     }
   };
   return (
@@ -257,17 +206,11 @@ function UserPage(props) {
         visible={editMode}
         onCancel={() => {
           setEditMode(false);
-          setIsCanceled(true);
-          setTimeout(() => {
-            setIsCanceled(false);
-          }, 1500);
+          canceledTimer();
         }}
         onOk={() => {
           if (newName.current?.input.value) editName();
           if (option === 'type' && selectedType) editType();
-          if (option === 'createOrg') createOrg();
-          if (option === 'org') editOrg();
-          console.log(selectedType);
           setEditMode(false);
         }}
         okText="Save">
