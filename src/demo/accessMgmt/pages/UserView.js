@@ -16,14 +16,7 @@ function UserView(props) {
         UserView
       </Title>
       ;
-      <UVContent
-        selectedUser={props.selectedUser}
-        setSelectedUser={props.setSelectedUser}
-        showUsers={props.showUsers}
-        updateUser={props.updateUser}
-        users={props.users}
-      />
-      ;
+      <UVContent showUsers={props.showUsers} updateUser={props.updateUser} users={props.users} />;
     </div>
   );
 }

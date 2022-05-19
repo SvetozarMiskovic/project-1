@@ -23,3 +23,32 @@
     margin: 1rem;
     color: white;
 }
+
+.org_box{padding:1rem;
+    border-bottom: 1px solid white;
+    width: 100%;
+    font-size: 1.2rem;
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+    color: white;
+}
+
+.org_box:hover{
+    transform: scale(1.03);
+    background-color: #568203;
+    color: white;
+    border-radius: 1rem;
+    border: none
+}
+
+.org_card{
+   
+
+       max-width: 800px;
+       
+        width: 100%;
+        background-color: #2375ab;
+  
+    
+}

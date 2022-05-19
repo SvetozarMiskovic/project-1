@@ -1,0 +1,46 @@
+.org_page{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    overflow-x: hidden;
+}
+
+.op_header{
+    background-color: #2375ab;
+    width: 100%;
+    display: flex;
+    padding: 1rem;
+    justify-content: space-evenly;
+   
+}
+
+.op_content{
+    display: flex;
+    justify-content: center;
+}
+
+.org_name, .org_owner, .org_members{
+    align-items: center;
+    margin: 1rem;
+    padding: 1rem;
+}
+
+.org_members_box{
+    background-color: white;
+    padding: 1rem;
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
+}
+
+.single_member{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    
+}
+

@@ -6,13 +6,7 @@ function UVContent(props) {
     <div className="uv_content">
       {props.showUsers?.map((user) => {
         return (
-          <Link
-            to={`/user/${user.id}`}
-            onClick={() => {
-              props.setSelectedUser(user.id);
-            }}
-            key={user.id}
-            className="user_box">
+          <Link to={`/user/${user.id}`} key={user.id} className="user_box">
             {user.user} <span>ID:{user.id}</span>
           </Link>
         );

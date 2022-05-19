@@ -30,7 +30,7 @@ function App() {
     const ls = JSON.parse(localStorage.getItem('showUsers'));
     return ls ? ls : [];
   });
-  const [selectedUser, setSelectedUser] = useState();
+
   const [orgs, setOrgs] = useState(() => {
     const ls = JSON.parse(localStorage.getItem('organisations'));
     return ls ? ls : [];
@@ -63,15 +63,7 @@ function App() {
           />
           <Route
             path="/user-view"
-            element={
-              <UserView
-                selectedUser={selectedUser}
-                showUsers={showUsers}
-                setSelectedUser={setSelectedUser}
-                users={users}
-                currentUser={currentUser}
-              />
-            }
+            element={<UserView showUsers={showUsers} users={users} currentUser={currentUser} />}
           />
 
           <Route
@@ -83,8 +75,6 @@ function App() {
                 users={users}
                 setUsers={setUsers}
                 currentUser={currentUser}
-                selectedUser={selectedUser}
-                setSelectedUser={setSelectedUser}
               />
             }
           />
@@ -100,7 +90,10 @@ function App() {
               />
             }
           />
-          <Route path="/org/:orgId" element={<OrgPage />} />
+          <Route
+            path="/org/:orgId"
+            element={<OrgPage orgs={orgs} setOrgs={setOrgs} currentUser={currentUser} />}
+          />
         </Routes>
       </div>
     );

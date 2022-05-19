@@ -4,13 +4,11 @@ import { Input, Select, Typography } from 'antd';
 import '../../../styles/OrgView.css';
 import Modal from 'antd/lib/modal/Modal';
 import { useEffect, useRef, useState } from 'react';
-import { useParams } from 'react-router-dom';
 
 const { Title } = Typography;
 const { Option } = Select;
 
 function OrgView(props) {
-  const { orgId } = useParams();
   const [createOrg, setCreateOrg] = useState(false);
   const orgName = useRef();
   const [orgOwner, setOrgOwner] = useState();
@@ -47,12 +45,11 @@ function OrgView(props) {
       <Title style={{ textAlign: 'center', margin: '1rem', color: '#2375ab' }} level={2}>
         Organisation view
       </Title>
-      <OVContent orgs={props.orgs} orgId={orgId} />
+      <OVContent setSelectedOrg={props.setSelectedOrg} orgs={props.orgs} />
       <Modal
         title="Create an Organisation"
         onOk={() => {
-          console.log(orgMembers, orgOwner, orgName.current.input.value);
-          createOrganisation();
+          if (orgOwner) createOrganisation();
         }}
         onCancel={() => setCreateOrg(false)}
         visible={createOrg}>

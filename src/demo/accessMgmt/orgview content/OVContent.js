@@ -5,8 +5,8 @@ function OVContent(props) {
     <div className="ov_content">
       {props.orgs.map((org) => {
         return (
-          <Link to={`/org/${org.id}`} key={org.id}>
-            {org.organisation}
+          <Link className="org_box" to={`/org/${org.id}`} key={org.id}>
+            {org.organisation} <span>ID: {org.id}</span>
           </Link>
         );
       })}
