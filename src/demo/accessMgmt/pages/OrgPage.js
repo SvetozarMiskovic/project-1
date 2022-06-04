@@ -13,7 +13,14 @@ function OrgPage(props) {
       <Title level={2} style={{ textAlign: 'center', margin: '1rem', color: '#2375ab' }}>
         Organisation page
       </Title>
-      <OPContent currentUser={props.currentUser} orgs={props.orgs} orgId={orgId} />
+      <OPContent
+        users={props.users}
+        currentUser={props.currentUser}
+        showUsers={props.showUsers}
+        orgs={props.orgs}
+        setOrgs={props.setOrgs}
+        orgId={orgId}
+      />
     </div>
   );
 }

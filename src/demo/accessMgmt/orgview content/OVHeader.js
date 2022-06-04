@@ -25,12 +25,14 @@ function OVHeader(props) {
         Logged in as: <span style={{ color: 'red' }}>{props.currentUser?.type}</span>, ID:
         <span style={{ color: 'red' }}> {props.currentUser?.id}</span>
       </Title>
-      <Button
-        onClick={() => props.setCreateOrg(true)}
-        style={{ color: 'red', border: 'none' }}
-        type="secondary">
-        Create an Organisation
-      </Button>
+      {props.currentUser?.type === 'superuser' || props.currentUser?.type === 'admin' ? (
+        <Button
+          onClick={() => props.setCreateOrg(true)}
+          style={{ color: 'red', border: 'none' }}
+          type="secondary">
+          Create an Organisation
+        </Button>
+      ) : null}
     </div>
   );
 }

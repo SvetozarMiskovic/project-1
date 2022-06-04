@@ -52,7 +52,7 @@ function UPContent(props) {
                 {user.org ? (
                   <Input
                     placeholder="/no org name"
-                    value={user.org.name ? user.org.name : null}
+                    value={user.org.organisation ? user.org.organisation : null}
                     size="large"
                     style={{ color: '#2375ab' }}
                     type={'text'}

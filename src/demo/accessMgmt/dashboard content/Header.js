@@ -15,6 +15,7 @@ function Header(props) {
   const [createMode, setCreateMode] = useState(false);
   const [selectedType, setSelectedType] = useState();
   const [missingInfo, setMissingInfo] = useState(false);
+  const [errorMessage, setErrorMessage] = useState();
   const userRef = useRef();
   const passRef = useRef();
 
@@ -22,37 +23,50 @@ function Header(props) {
     setCreateMode(false);
   };
 
-  const onConfirm = async () => {
-    const id = new Date().getTime();
-
-    const newUser = [
-      {
-        id,
-        user: userRef.current.input.value,
-        password: passRef.current.input.value,
-        type: selectedType
-      }
-    ];
-    if (userRef.current.input.value && passRef.current.input.value) {
-      props.setUsers((prevState) => [...prevState, ...newUser]);
-    } else {
-      setMissingInfo(true);
-      setTimeout(() => {
-        setMissingInfo(false);
-      }, 2000);
-    }
-
-    await createUserWithEmailAndPassword(
-      auth,
-      userRef.current.input.value,
-      passRef.current.input.value
-    );
-    setCreateMode(false);
-
+  const createdTimer = () => {
     props.setCreated(true);
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       props.setCreated(false);
     }, 2000);
+    return () => clearTimeout(timer);
+  };
+
+  const errTimer = (msg) => {
+    setMissingInfo(true);
+    setErrorMessage(msg);
+    const timer = setTimeout(() => {
+      setMissingInfo(false);
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  };
+  const onConfirm = async () => {
+    try {
+      const id = new Date().getTime();
+
+      const newUser = [
+        {
+          id,
+          user: userRef.current.input.value,
+          password: passRef.current.input.value,
+          type: selectedType
+        }
+      ];
+
+      await createUserWithEmailAndPassword(
+        auth,
+        userRef.current.input.value,
+        passRef.current.input.value
+      );
+
+      if (userRef.current.input.value && passRef.current.input.value) {
+        props.setUsers((prevState) => [...prevState, ...newUser]);
+      }
+      setCreateMode(false);
+      createdTimer();
+    } catch (error) {
+      errTimer(error.message);
+    }
   };
 
   const onChange = (value) => {
@@ -109,6 +123,7 @@ function Header(props) {
         Create a user
       </Button>
       <Modal
+        destroyOnClose
         title="Create user"
         visible={createMode}
         onCancel={onCancel}
@@ -122,10 +137,7 @@ function Header(props) {
             : { style: { display: 'inline' } }
         }>
         {missingInfo ? (
-          <Alert
-            style={{ marginBottom: '1rem' }}
-            type="error"
-            message="Please fill in the required information!"></Alert>
+          <Alert style={{ marginBottom: '1rem' }} type="error" message={errorMessage}></Alert>
         ) : null}
         {props.currentUser?.type !== 'guest' ? (
           <Form>
@@ -165,7 +177,9 @@ function Header(props) {
           to="/user-view">
           UserView
         </Link>
-        {props.currentUser?.type === 'superuser' || props.currentUser?.type === 'admin' ? (
+        {props.currentUser?.type === 'superuser' ||
+        props.currentUser?.type === 'admin' ||
+        props.currentUser?.type === 'owner' ? (
           <Link
             style={{
               textDecoration: 'none',

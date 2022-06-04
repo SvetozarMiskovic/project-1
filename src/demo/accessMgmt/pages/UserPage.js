@@ -1,13 +1,15 @@
 import '../../../styles/UserPage.css';
 import UPContent from '../user page content/UPContent';
 import UPHeader from '../user page content/UPHeader';
-import { Modal, Typography } from 'antd'; // Input
-import { useState, useRef } from 'react'; //
+import { Modal, Typography } from 'antd';
+import { useState, useRef } from 'react';
 import { Input } from 'antd';
 import { Select } from 'antd';
 import { Alert } from 'antd';
 import { Drawer } from 'antd';
 import { useParams } from 'react-router-dom';
+// import { useEffect } from 'react';
+
 const { Title } = Typography;
 const { Option } = Select;
 
@@ -202,6 +204,7 @@ function UserPage(props) {
         />
       ) : null}
       <Modal
+        destroyOnClose
         title="Edit user info"
         visible={editMode}
         onCancel={() => {

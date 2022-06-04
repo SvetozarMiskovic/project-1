@@ -24,6 +24,7 @@ function OrgView(props) {
   useEffect(() => {
     localStorage.setItem('organisations', JSON.stringify(props.orgs));
   }, [props.orgs]);
+
   const createOrganisation = () => {
     const [ownerObj] = props.users.filter((user) => user.id === orgOwner);
     const membersArr = props.users.filter((user) => orgMembers.includes(user.id));
@@ -37,6 +38,7 @@ function OrgView(props) {
     };
 
     handleNewOrg(newOrg);
+
     setCreateOrg(false);
   };
   return (
@@ -47,6 +49,7 @@ function OrgView(props) {
       </Title>
       <OVContent setSelectedOrg={props.setSelectedOrg} orgs={props.orgs} />
       <Modal
+        destroyOnClose
         title="Create an Organisation"
         onOk={() => {
           if (orgOwner) createOrganisation();

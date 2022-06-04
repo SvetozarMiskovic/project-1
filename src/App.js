@@ -75,6 +75,7 @@ function App() {
                 users={users}
                 setUsers={setUsers}
                 currentUser={currentUser}
+                orgs={orgs}
               />
             }
           />
@@ -92,7 +93,15 @@ function App() {
           />
           <Route
             path="/org/:orgId"
-            element={<OrgPage orgs={orgs} setOrgs={setOrgs} currentUser={currentUser} />}
+            element={
+              <OrgPage
+                users={users}
+                orgs={orgs}
+                setOrgs={setOrgs}
+                currentUser={currentUser}
+                showUsers={showUsers}
+              />
+            }
           />
         </Routes>
       </div>
